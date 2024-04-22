@@ -6,7 +6,7 @@
 - JavaScript
   
 ## Website
-Visit our website to overview [here](https://gtk-thangella-17.github.io/GTK-THANGELLA-17-Book-Theater-Website-v1/).
+Visit our website to overview [here](https://gtk-thangella-17.github.io/Book-your-Massage-Appointment/).
 
 **Designed and built by Your G.Thangella © 2024. All rights reserved.**
 
