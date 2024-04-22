@@ -325,7 +325,7 @@ select {
             </div>
             <div>
                 <i class="fas fa-map-marker-alt fa-icon" title="Location" id="view-location"></i>
-                <span class="location-link" id="massage-location-link">Dilsukhnagar, Hyderabad, Telangana</span>
+                <span class="location-link" id="massage-location-link">Click On Location Icon To View Massage Center Location</span>
  </select>
 
             </div>
@@ -353,12 +353,12 @@ select {
         <p>If you want to book a massage appointment, please ensure the following:</p>
         <ul>
             <li>Provide accurate and complete information in the form.</li>
-            <li>The price entered should be in INR.</li>
+          
             <li>After payment, send the payment details to the email address provided below.</li>
-            <li>Contact customer support at 1-800-123-4567 for further assistance.</li>
-            <li>Contact customer support for assistance: BookYourMassage@gmail.com</li>
+            <li>Contact support at 9441230736 , 8309456885 for further assistance.</li>
+            <li>Contact support for assistance: BookYourMassage@gmail.com</li>
         </ul>
-        <p>Click on the "Before Booking, Read This" button to read important instructions before proceeding.</p>
+        
         <section id="instructions-usage">
             <h3>Instructions and Usage</h3>
             <ol>
@@ -366,13 +366,9 @@ select {
                     <h4>Booking an Appointment</h4>
                     <p>Fill out the form with the required information:</p>
                     <ul>
-                        <li>Provide accurate and complete information in the form.</li>
-                        <li>The price entered should be in INR.</li>
-                        <li>After payment, send the payment details to the email address provided below.</li>
-                        <li>Contact customer support at 1-800-123-4567 for further assistance.</li>
-                        <li>Contact customer support for assistance: BookYourMassage@gmail.com</li>
+                      
                     </ul>
-                    <p>Click on the "Before Booking, Read This" button to read important instructions before proceeding.</p>
+                    
                 </li>
                 <li>
                     <h4>Payment Process</h4>
@@ -389,7 +385,7 @@ select {
         </section>
         <section id="contact-info">
             <h3>Contact Information</h3>
-            <p>For assistance, contact support at <strong>1-800-123-4567</strong>.</p>
+            <p>For assistance, contact support at <strong>9441230736 , 8309456885</strong>.</p>
             <p>Email: <strong>BookYourMassage@gmail.com</strong></p>
         </section>
        <button id="close-about">Close</button> 
@@ -413,7 +409,7 @@ select {
     <footer>
         <li>Designed and built by Your G.Thangella &copy; 2024. All rights reserved.</li>
         <li>This website is protected by copyright law. Unauthorized use or modification of the code is prohibited.</li>
-        <li>Contact support for assistance: 1-800-123-4567</li>
+        <li>Contact support for assistance: 9441230736 , 8309456885</li>
         <li>Contact support for assistance: BookYourMassage@gmail.com</li>
     </footer>
         </section>
@@ -479,7 +475,7 @@ select {
                 <p><strong>Massage Type:</strong> ${document.getElementById('massage-price').selectedOptions[0].textContent}</p>
                 <p><strong>Date:</strong> ${document.getElementById('massage-date').value}</p>
                 <p><strong>Time:</strong> ${document.getElementById('massage-time').value.trim()}</p>
-                <p><strong>Location:</strong> Dilsukhnagar, Hyderabad, Telangana</p> <!-- Display fixed location -->
+                <p><strong>Location:</strong> https://www.google.com/maps/place/17%C2%B021\'32.5%22N+78%C2%B031\'41.2%22E/@17.3590192,78.5255428,17z/data=!3m1!4b1!4m4!3m3!8m2!3d17.3590192!4d78.5281177?entry=ttu'</p> <!-- Display fixed location -->
                 <p><strong>Your Name:</strong> ${document.getElementById('client-name').value.trim()}</p>
                 <p><strong>Mobile Number:</strong> ${document.getElementById('client-mobile-number').value.trim()}</p>
                 <p><strong>Email Address:</strong> ${document.getElementById('client-email-address').value.trim()}</p>
@@ -544,11 +540,11 @@ function generateUniqueID(massageDetails) {
         var today = new Date().toISOString().split('T')[0];
         document.getElementById('massage-date').setAttribute('min', today);
 
-        // Open Google Maps when the location link is clicked
        document.getElementById('view-location').addEventListener('click', function(event) {
-    var locationUrl = 'https://www.google.com/maps/place/Dilsukhnagar,+Hyderabad,+Telangana/@17.3686452,78.5155982,17z/data=!3m1!4b1';
+    var locationUrl = 'https://www.google.com/maps/place/17%C2%B021\'32.5%22N+78%C2%B031\'41.2%22E/@17.3590192,78.5255428,17z/data=!3m1!4b1!4m4!3m3!8m2!3d17.3590192!4d78.5281177?entry=ttu';
     window.open(locationUrl, '_blank');
 });
+
 
         // Update massage prices based on therapist selection
         document.getElementById('therapist-name').addEventListener('change', function(event) {
