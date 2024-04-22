@@ -456,7 +456,7 @@ select {
             var price = parseFloat(document.getElementById('massage-price').value.trim());
             var therapistName = encodeURIComponent(document.getElementById('therapist-name').value.trim());
             var amount = price.toFixed(2);
-            var upiId = therapistName === 'Gali%20Saheb' ? '8008133117@ybl' : '8008133117@ibl';
+            var upiId = therapistName === 'Gali%20Saheb' ? '9441230736@ybl' : '9490449628@ybl';
             var qrCodeData = `upi://pay?pa=${upiId}&pn=${therapistName}&am=${amount}&cu=INR`;
             var qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(qrCodeData)}`;
             var qrImage = document.querySelector('.qr-code img');
