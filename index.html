@@ -74,17 +74,19 @@
             text-align: left;
         }
 
-        input[type="text"],
-        input[type="number"],
-        input[type="date"],
-        select {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
+        /* Center input fields */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+    width: 80%; /* Adjust width */
+    max-width: 400px; /* Adjust max-width */
+    margin: 10px auto; /* Center horizontally */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
 
         button {
             background-color: #303030;
@@ -178,37 +180,29 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        /* About popup */
-#about-popup {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    z-index: 999;
-}
-
-#about-popup-content {
-    background-color: #fff;
+        #about-popup-content {
+    background-color: #FCF6F5;
     width: 80%;
     max-width: 600px;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    overflow-y: auto; /* Make content scrollable */
+    max-height: 80vh; /* Set maximum height */
 }
+
+
 
 #close-about {
     position: absolute;
     top: 10px;
     right: 10px;
     cursor: pointer;
-    color: #000000; /* Adjust the color as needed */
+    color: #000; /* Adjust the color as needed */
     background: none;
     border: none;
     font-size: 16px;
@@ -265,6 +259,7 @@
     background-color: #f9f9f9;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center text content */
 }
 
 #Contact-Section h2 {
@@ -293,7 +288,6 @@
 </head>
 <body>
 <!-- Loading overlay -->
-    <!-- Loading overlay -->
     <div class="loading-overlay">
         <div class="loading-text">Book Your Massage Appointment starting...</div>
     </div>
@@ -332,7 +326,11 @@
             <div>
                 <i class="fas fa-map-marker-alt fa-icon" title="Location" id="view-location"></i>
                 <span class="location-link" id="massage-location-link">Dilsukhnagar, Hyderabad, Telangana</span>
+ </select>
+
             </div>
+</div>
+
             <div>
                 <i class="fas fa-user fa-icon" title="Your Name"></i>
                 <input type="text" id="client-name" name="client-name" placeholder="Your Name" required>
@@ -349,7 +347,7 @@
         </form>
 
         <!-- About popup -->
-<div id="about-popup">
+<div id="about-popup" style="display: none;"> <!-- Hide initially -->
     <div id="about-popup-content">
         <h3>Before Booking, Read This</h3>
         <p>If you want to book a massage appointment, please ensure the following:</p>
@@ -379,11 +377,13 @@
                 <li>
                     <h4>Payment Process</h4>
                     <p>Click on the "Continue to Payment" button Then QR code Is Displayed .</p>
+<p>After Payment done attach the downloaded appointment details text.file and payment details and send to The Mail : Massageappointment@gmail.com.</p>
+
                     <p>Scan the QR code to make the payment.</p>
                 </li>
                 <li>
                     <h4>Confirmation</h4>
-                    <p>After Payment done attach the downloaded appointment details text.file and payment details and send to The Mail : Massageappointment@gmail.com.</p>
+                    
                 </li>
             </ol>
         </section>
@@ -402,7 +402,6 @@
             <div class="interactive-content">
                 <h2>Make Payment</h2>
                 <p>Scan the QR code below to make payment:</p>
-<p>After Payment done attach the downloaded appointment details text.file and payment details and send to The Mail : Massageappointment@gmail.com.</p>
                 <div class="qr-code">
                     <img id="upi-qr-code" src="#" alt="UPI QR Code">
                 </div>
@@ -417,54 +416,10 @@
         <li>Contact support for assistance: 1-800-123-4567</li>
         <li>Contact support for assistance: BookYourMassage@gmail.com</li>
     </footer>
-
-<section id="instructions-usage">
-            <h2>Instructions and Usage</h2>
-            <ol>
-                <li>
-                    <h3>Booking an Appointment</h3>
-                    <p>Fill out the form with the required information:</p>
-                    <ul>
-                        <li>Select a therapist.</li>
-                        <li>Choose a massage type.</li>
-                        <li>Pick a date and time. Check The Availability Based On Time and Dates</li>
-                        <li>Enter your name, mobile number, and email address.</li>
-                    </ul>
-                    <p>Click on the "Before Booking, Read This" button to read important instructions before proceeding.</p>
-                   
-                </li>
-                <li>
-                    <h3>Payment Process</h3>
-                     <p>Click on the "Continue to Payment" button Then QR code Is Displayed .</p>
-                    <p>Scan the QR code to make the payment.</p>
- 
-
-                </li>
-                <li>
-                    <h3>Confirmation</h3>
-                    <p>After Payment done attach the downloaded appointment details text.file and payment details and send to The Mail : Massageappointment@gmail.com.</p>
-                </li>
-            </ol>
-        </section>
-        <section id="Contact-Section">
-            <h2>Contact-Section</h2>
-            <section id="contact-info">
-                <h3>Contact Information</h3>
-                <p>For assistance, contact support at <strong>1-800-123-4567</strong>.</p>
-                <p>Email: <strong>BookYourMassage@gmail.com</strong></p>
-            </section>
-            </section>
-            <section id="copyright">
-<ol>
-
-                <h3>Copyright Notice</h3>
-                <p>Designed and built by Your G.Thangella &copy; 2024. All rights reserved.</p>
-                <p>This website is protected by copyright law. Unauthorized use or modification of the code is prohibited.</p>
-</ol>
-
-            </section>
         </section>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+
     <script>
 
 // Show the loading overlay
@@ -478,14 +433,28 @@
             document.querySelector('footer').style.display = 'block';
         }, 3000); // 3000 milliseconds = 3 seconds
 
-        // JavaScript code
-document.getElementById('preview-info-btn').addEventListener('click', function(event) {
-    document.getElementById('about-popup').style.display = 'block';
+       document.addEventListener('DOMContentLoaded', function() {
+    // Define variables for the button and popup
+    var previewButton = document.getElementById('preview-info-btn');
+    var aboutPopup = document.getElementById('about-popup');
+
+    // Add event listener to the button
+    previewButton.addEventListener('click', function(event) {
+        // Toggle the display of the popup
+        if (aboutPopup.style.display === 'none') {
+            aboutPopup.style.display = 'block';
+        } else {
+            aboutPopup.style.display = 'none';
+        }
+    });
+
+    // Add event listener to the close button within the popup
+    document.getElementById('close-about').addEventListener('click', function(event) {
+        aboutPopup.style.display = 'none'; // Hide the popup when close button is clicked
+    });
 });
 
-document.getElementById('close-about').addEventListener('click', function(event) {
-    document.getElementById('about-popup').style.display = 'none';
-});
+
 
         document.getElementById('continue-payment-btn').addEventListener('click', function(event) {
             var price = parseFloat(document.getElementById('massage-price').value.trim());
