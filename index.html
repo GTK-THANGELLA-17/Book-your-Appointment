@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Massage Appointment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+
+/* Loading overlay styles */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #FFE5B4	; /* Semi-transparent white background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* Ensure it's above other elements */
+        }
+
+        .loading-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333; /* Dark text color */
+        }
+
+        /* Hide content initially */
+        main, footer {
+            display: none;
+        }
+
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #F1F1F2; /* Add a background color */
+        }
+
+        /* Header styles */
+        header {
+            background-color: #3B3131	; /* Changed header color to blue */
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        /* Main styles */
+        main {
+            padding: 20px;
+            display: flex;
+            justify-content: center; /* Center content horizontally */
+            align-items: center; /* Center content vertically */
+            flex-direction: column; /* Stack sections vertically */
+        }
+
+        /* Form styles */
+        form {
+            width: 80%; /* Adjust width */
+            max-width: 600px; /* Adjust max-width */
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            text-align: left;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #303030;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 10px 20px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #7a0000;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Footer styles */
+        footer {
+            background-color: #2A3132; /* Light gray */
+            color: #F1F1F2; /* Dark gray */
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Icon style */
+        .fa-icon {
+            color: #1E90FF; /* Changed icon color to blue */
+            margin-right: 5px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .fa-icon:hover {
+            color: #7a0000;
+        }
+
+        /* Interactive section */
+        .interactive-section {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .interactive-section.active {
+            display: block;
+        }
+
+        .interactive-content {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .interactive-content h2 {
+            margin-top: 0;
+        }
+
+        /* QR code */
+        .qr-code {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .qr-code img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Generated price box */
+        .price-box {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Details box */
+        .details-box {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* About popup */
+#about-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 999;
+}
+
+#about-popup-content {
+    background-color: #fff;
+    width: 80%;
+    max-width: 600px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#close-about {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    color: #000000; /* Adjust the color as needed */
+    background: none;
+    border: none;
+    font-size: 16px;
+    z-index: 1000; /* Ensure it's above the popup content */
+}
+
+
+        /* Added styles for the location link */
+        .location-link {
+            color: #1E90FF;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .location-link:hover {
+            color: #7a0000;
+        }
+
+/* CSS styles for Instructions and Usage section */
+#instructions-usage {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#instructions-usage h2 {
+    margin-top: 0;
+}
+
+#instructions-usage ol {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+#instructions-usage li {
+    margin-bottom: 20px;
+}
+
+#instructions-usage h3 {
+    margin-top: 0;
+}
+
+#instructions-usage ul {
+    margin-top: 5px;
+}
+
+/* CSS styles for Contact Section */
+#Contact-Section {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#Contact-Section h2 {
+    margin-top: 0;
+}
+
+#Contact-Section section {
+    margin-top: 10px;
+}
+
+#Contact-Section h3 {
+    margin-top: 0;
+}
+
+#Contact-Section p {
+    margin: 5px 0;
+}
+
+#Contact-Section strong {
+    font-weight: bold;
+}
+
+
+
+    </style>
+</head>
+<body>
+<!-- Loading overlay -->
+    <!-- Loading overlay -->
+    <div class="loading-overlay">
+        <div class="loading-text">Book Your Massage Appointment starting...</div>
+    </div>
+
+
+    <header>
+        <h1>Book Your Massage Appointment</h1>
+        <button id="preview-info-btn">Before Booking, Read This</button> <!-- Added preview button -->
+    </header>
+    <main>
+        <form id="massage-form">
+            <div>
+                <i class="fas fa-user-md fa-icon" title="Therapist Name"></i>
+                <select id="therapist-name" name="therapist-name" required>
+                    <option value="" disabled selected>Select Therapist</option>
+                    <option value="Gali Saheb">Gali Saheb</option>
+                    <option value="Abdul Rasheed">Abdul Rasheed</option>
+                </select>
+            </div>
+            <div>
+                <i class="fas fa-money-bill-wave fa-icon" title="Price"></i>
+                <select id="massage-price" name="massage-price" required>
+                    <option value="" disabled selected>Select Massage Type</option>
+                </select>
+            </div>
+            <div>
+                <i class="far fa-calendar-alt fa-icon" title="Date"></i>
+                <input type="date" id="massage-date" name="massage-date" required min="${new Date().toISOString().split('T')[0]}">
+            </div>
+            <div>
+                <i class="far fa-clock fa-icon" title="Time"></i>
+                <select id="massage-time" name="massage-time" required>
+                    <option value="" disabled selected>Select Time</option>
+                </select>
+            </div>
+            <div>
+                <i class="fas fa-map-marker-alt fa-icon" title="Location" id="view-location"></i>
+                <span class="location-link" id="massage-location-link">Dilsukhnagar, Hyderabad, Telangana</span>
+            </div>
+            <div>
+                <i class="fas fa-user fa-icon" title="Your Name"></i>
+                <input type="text" id="client-name" name="client-name" placeholder="Your Name" required>
+            </div>
+            <div>
+                <input type="tel" id="client-mobile-number" name="client-mobile-number" placeholder="Mobile Number" required pattern="[0-9]{10}">
+                <i class="fas fa-phone fa-icon" title="Mobile Number"></i>
+            </div>
+            <div>
+                <input type="email" id="client-email-address" name="client-email-address" placeholder="Email Address (Gmail only)" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$">
+                <i class="fas fa-envelope fa-icon" title="Email Address"></i>
+            </div>
+            <button type="button" id="continue-payment-btn" disabled>Continue to Payment</button>
+        </form>
+
+        <!-- About popup -->
+<div id="about-popup">
+    <div id="about-popup-content">
+        <h3>Before Booking, Read This</h3>
+        <p>If you want to book a massage appointment, please ensure the following:</p>
+        <ul>
+            <li>Provide accurate and complete information in the form.</li>
+            <li>The price entered should be in INR.</li>
+            <li>After payment, send the payment details to the email address provided below.</li>
+            <li>Contact customer support at 1-800-123-4567 for further assistance.</li>
+            <li>Contact customer support for assistance: BookYourMassage@gmail.com</li>
+        </ul>
+        <p>Click on the "Before Booking, Read This" button to read important instructions before proceeding.</p>
+        <section id="instructions-usage">
+            <h3>Instructions and Usage</h3>
+            <ol>
+                <li>
+                    <h4>Booking an Appointment</h4>
+                    <p>Fill out the form with the required information:</p>
+                    <ul>
+                        <li>Provide accurate and complete information in the form.</li>
+                        <li>The price entered should be in INR.</li>
+                        <li>After payment, send the payment details to the email address provided below.</li>
+                        <li>Contact customer support at 1-800-123-4567 for further assistance.</li>
+                        <li>Contact customer support for assistance: BookYourMassage@gmail.com</li>
+                    </ul>
+                    <p>Click on the "Before Booking, Read This" button to read important instructions before proceeding.</p>
+                </li>
+                <li>
+                    <h4>Payment Process</h4>
+                    <p>Click on the "Continue to Payment" button Then QR code Is Displayed .</p>
+                    <p>Scan the QR code to make the payment.</p>
+                </li>
+                <li>
+                    <h4>Confirmation</h4>
+                    <p>After Payment done attach the downloaded appointment details text.file and payment details and send to The Mail : Massageappointment@gmail.com.</p>
+                </li>
+            </ol>
+        </section>
+        <section id="contact-info">
+            <h3>Contact Information</h3>
+            <p>For assistance, contact support at <strong>1-800-123-4567</strong>.</p>
+            <p>Email: <strong>BookYourMassage@gmail.com</strong></p>
+        </section>
+       <button id="close-about">Close</button> 
+    </div>
+</div>
+
+
+        <!-- Section for payment options -->
+        <div class="interactive-section" id="payment-options">
+            <div class="interactive-content">
+                <h2>Make Payment</h2>
+                <p>Scan the QR code below to make payment:</p>
+<p>After Payment done attach the downloaded appointment details text.file and payment details and send to The Mail : Massageappointment@gmail.com.</p>
+                <div class="qr-code">
+                    <img id="upi-qr-code" src="#" alt="UPI QR Code">
+                </div>
+                <div class="price-box" id="price-to-be-paid"></div>
+                <div class="details-box" id="massage-details"></div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <li>Designed and built by Your G.Thangella &copy; 2024. All rights reserved.</li>
+        <li>This website is protected by copyright law. Unauthorized use or modification of the code is prohibited.</li>
+        <li>Contact support for assistance: 1-800-123-4567</li>
+        <li>Contact support for assistance: BookYourMassage@gmail.com</li>
+    </footer>
+
+<section id="instructions-usage">
+            <h2>Instructions and Usage</h2>
+            <ol>
+                <li>
+                    <h3>Booking an Appointment</h3>
+                    <p>Fill out the form with the required information:</p>
+                    <ul>
+                        <li>Select a therapist.</li>
+                        <li>Choose a massage type.</li>
+                        <li>Pick a date and time. Check The Availability Based On Time and Dates</li>
+                        <li>Enter your name, mobile number, and email address.</li>
+                    </ul>
+                    <p>Click on the "Before Booking, Read This" button to read important instructions before proceeding.</p>
+                   
+                </li>
+                <li>
+                    <h3>Payment Process</h3>
+                     <p>Click on the "Continue to Payment" button Then QR code Is Displayed .</p>
+                    <p>Scan the QR code to make the payment.</p>
+ 
+
+                </li>
+                <li>
+                    <h3>Confirmation</h3>
+                    <p>After Payment done attach the downloaded appointment details text.file and payment details and send to The Mail : Massageappointment@gmail.com.</p>
+                </li>
+            </ol>
+        </section>
+        <section id="Contact-Section">
+            <h2>Contact-Section</h2>
+            <section id="contact-info">
+                <h3>Contact Information</h3>
+                <p>For assistance, contact support at <strong>1-800-123-4567</strong>.</p>
+                <p>Email: <strong>BookYourMassage@gmail.com</strong></p>
+            </section>
+            </section>
+            <section id="copyright">
+<ol>
+
+                <h3>Copyright Notice</h3>
+                <p>Designed and built by Your G.Thangella &copy; 2024. All rights reserved.</p>
+                <p>This website is protected by copyright law. Unauthorized use or modification of the code is prohibited.</p>
+</ol>
+
+            </section>
+        </section>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+
+// Show the loading overlay
+        var loadingOverlay = document.querySelector('.loading-overlay');
+        loadingOverlay.style.display = 'flex';
+
+        // After 5 seconds, hide the loading overlay and show the content
+        setTimeout(function() {
+            loadingOverlay.style.display = 'none';
+            document.querySelector('main').style.display = 'block';
+            document.querySelector('footer').style.display = 'block';
+        }, 3000); // 3000 milliseconds = 3 seconds
+
+        // JavaScript code
+document.getElementById('preview-info-btn').addEventListener('click', function(event) {
+    document.getElementById('about-popup').style.display = 'block';
+});
+
+document.getElementById('close-about').addEventListener('click', function(event) {
+    document.getElementById('about-popup').style.display = 'none';
+});
+
+        document.getElementById('continue-payment-btn').addEventListener('click', function(event) {
+            var price = parseFloat(document.getElementById('massage-price').value.trim());
+            var therapistName = encodeURIComponent(document.getElementById('therapist-name').value.trim());
+            var amount = price.toFixed(2);
+            var upiId = therapistName === 'Gali%20Saheb' ? '8008133117@ybl' : '8008133117@ibl';
+            var qrCodeData = `upi://pay?pa=${upiId}&pn=${therapistName}&am=${amount}&cu=INR`;
+            var qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(qrCodeData)}`;
+            var qrImage = document.querySelector('.qr-code img');
+            qrImage.src = qrCodeUrl;
+
+            var priceBox = document.getElementById('price-to-be-paid');
+            priceBox.textContent = 'Price to be paid: ₹' + amount + ' After Payment done attach the downloaded appointment details text.file and payment details and send to The Mail : Massageappointment@gmail.com.';
+
+
+
+            // Display massage details
+            var massageDetails = document.getElementById('massage-details');
+            massageDetails.innerHTML = `
+                <h2>Massage Details</h2>
+                <p><strong>Therapist Name:</strong> ${document.getElementById('therapist-name').value.trim()}</p>
+                <p><strong>Massage Type:</strong> ${document.getElementById('massage-price').selectedOptions[0].textContent}</p>
+                <p><strong>Date:</strong> ${document.getElementById('massage-date').value}</p>
+                <p><strong>Time:</strong> ${document.getElementById('massage-time').value.trim()}</p>
+                <p><strong>Location:</strong> Dilsukhnagar, Hyderabad, Telangana</p> <!-- Display fixed location -->
+                <p><strong>Your Name:</strong> ${document.getElementById('client-name').value.trim()}</p>
+                <p><strong>Mobile Number:</strong> ${document.getElementById('client-mobile-number').value.trim()}</p>
+                <p><strong>Email Address:</strong> ${document.getElementById('client-email-address').value.trim()}</p>
+            `;
+
+           document.getElementById('payment-options').classList.add('active');
+
+// Extract text content from massage details
+var massageDetails = document.getElementById('massage-details').innerText;
+
+// Generate unique ID based on massage details
+var uniqueID = generateUniqueID(massageDetails);
+
+// Download text file with specific name
+var downloadTextBtn = document.createElement('a');
+var textContent = "Book_Your_Massage_Appointment_Details" + massageDetails + '\nUnique ID: ' + uniqueID;
+var textBlob = new Blob([textContent], { type: 'text/plain' });
+downloadTextBtn.href = URL.createObjectURL(textBlob);
+
+// Set the desired filename
+downloadTextBtn.download = 'Book_Your_Massage_Appointment_Details.txt';
+downloadTextBtn.click();
+
+function generateUniqueID(massageDetails) {
+    // Concatenate the massage details with the fixed string
+    var combinedString = "Book_Your_Massage_Appointment_Details" + massageDetails;
+
+    // Calculate a hash of the combined string
+    var hash = 0;
+    for (var i = 0; i < combinedString.length; i++) {
+        var char = combinedString.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash |= 0; // Convert to 32bit integer
+    }
+
+    // Encode the hash to base64
+    var encodedID = btoa(hash.toString());
+
+    return encodedID;
+}
+
+        });
+
+        // Enable/disable continue payment button based on form validation
+        function validateForm() {
+            var isValid = true;
+            var inputs = document.querySelectorAll('input[required], select[required]');
+            inputs.forEach(function(input) {
+                if (!input.value.trim()) {
+                    isValid = false;
+                }
+            });
+            document.getElementById('continue-payment-btn').disabled = !isValid;
+        }
+
+        var formInputs = document.querySelectorAll('input[required], select[required]');
+        formInputs.forEach(function(input) {
+            input.addEventListener('input', validateForm);
+        });
+
+        // Disable past dates in date picker
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById('massage-date').setAttribute('min', today);
+
+        // Open Google Maps when the location link is clicked
+       document.getElementById('view-location').addEventListener('click', function(event) {
+    var locationUrl = 'https://www.google.com/maps/place/Dilsukhnagar,+Hyderabad,+Telangana/@17.3686452,78.5155982,17z/data=!3m1!4b1';
+    window.open(locationUrl, '_blank');
+});
+
+        // Update massage prices based on therapist selection
+        document.getElementById('therapist-name').addEventListener('change', function(event) {
+            var therapist = event.target.value;
+            var massagePriceSelect = document.getElementById('massage-price');
+            var massagePriceOptions = {
+                'Gali Saheb': [
+                    { value: '1000', label: 'Deep Tissue Massage - ₹1000' },
+                    { value: '800', label: 'Swedish Massage - ₹800' },
+                    { value: '1200', label: 'Hot Stone Massage - ₹1200' }
+                ],
+                'Abdul Rasheed': [
+                    { value: '900', label: 'Swedish Massage - ₹900' },
+                    { value: '1200', label: 'Deep Tissue Massage - ₹1200' },
+                    { value: '1100', label: 'Hot Stone Massage - ₹1100' }
+                ]
+            };
+
+            massagePriceSelect.innerHTML = ''; // Clear previous options
+            massagePriceOptions[therapist].forEach(function(option) {
+                var optionElement = document.createElement('option');
+                optionElement.value = option.value;
+                optionElement.textContent = option.label;
+                massagePriceSelect.appendChild(optionElement);
+            });
+
+            // Trigger form validation after updating options
+            validateForm();
+        });
+
+          // Update time slots based on therapist and date selection
+        document.getElementById('massage-date').addEventListener('change', function(event) {
+            var therapist = document.getElementById('therapist-name').value;
+            var date = event.target.value;
+            var timeSelect = document.getElementById('massage-time');
+            var timeSlots = {
+                'Gali Saheb': {
+                    '2024-04-25': ['2:30 PM', '3:00 PM', '5:00 PM'],
+                    '2024-04-26': ['3:30 PM', '4:00 PM', '6:00 PM']
+                },
+                'Abdul Rasheed': {
+                    '2024-04-25': ['5:30 PM', '6:00 PM', '8:00 PM'],
+                    '2024-04-26': ['4:30 PM', '5:00 PM', '7:00 PM']
+                }
+            };
+
+            timeSelect.innerHTML = '<option value="" disabled selected>Select Time</option>'; // Clear previous options
+            if (timeSlots[therapist] && timeSlots[therapist][date]) {
+                timeSlots[therapist][date].forEach(function(time) {
+                    var option = document.createElement('option');
+                    option.textContent = time;
+                    timeSelect.appendChild(option);
+                });
+            }
+
+            // Trigger form validation after updating options
+            validateForm();
+        });
+    </script>
+</body>
+</html>
