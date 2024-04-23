@@ -323,13 +323,11 @@ select {
                     <option value="" disabled selected>Select Time</option>
                 </select>
             </div>
-            <div>
-                <i class="fas fa-map-marker-alt fa-icon" title="Location" id="view-location"></i>
-                <span class="location-link" id="massage-location-link">Click On Location Icon To View Massage Center Location</span>
- </select>
-
-            </div>
+           <div>
+    <i class="fas fa-map-marker-alt fa-icon" title="Location" id="view-location"></i>
+    <a href="https://www.google.com/maps/place/17%C2%B021'32.5%22N+78%C2%B031'41.2%22E/@17.3590192,78.5255428,17z/data=!3m1!4b1!4m4!3m3!8m2!3d17.3590192!4d78.5281177?entry=ttu" target="_blank" class="location-link" id="massage-location-link">Click On Location Icon To View Massage Center Location</a>
 </div>
+
 
             <div>
                 <i class="fas fa-user fa-icon" title="Your Name"></i>
@@ -427,7 +425,7 @@ select {
             loadingOverlay.style.display = 'none';
             document.querySelector('main').style.display = 'block';
             document.querySelector('footer').style.display = 'block';
-        }, 2000); // 2000 milliseconds = 2 seconds
+        }, 3000); // 3000 milliseconds = 3 seconds
 
        document.addEventListener('DOMContentLoaded', function() {
     // Define variables for the button and popup
@@ -542,6 +540,7 @@ function generateUniqueID(massageDetails) {
 
        document.getElementById('view-location').addEventListener('click', function(event) {
     var locationUrl = 'https://www.google.com/maps/place/17%C2%B021\'32.5%22N+78%C2%B031\'41.2%22E/@17.3590192,78.5255428,17z/data=!3m1!4b1!4m4!3m3!8m2!3d17.3590192!4d78.5281177?entry=ttu';
+
     window.open(locationUrl, '_blank');
 });
 
@@ -577,32 +576,46 @@ function generateUniqueID(massageDetails) {
 
           // Update time slots based on therapist and date selection
         document.getElementById('massage-date').addEventListener('change', function(event) {
-            var therapist = document.getElementById('therapist-name').value;
-            var date = event.target.value;
-            var timeSelect = document.getElementById('massage-time');
-            var timeSlots = {
-                'Gali Saheb': {
-                    '2024-04-25': ['2:30 PM', '3:00 PM', '5:00 PM'],
-                    '2024-04-26': ['3:30 PM', '4:00 PM', '6:00 PM']
-                },
-                'Abdul Rasheed': {
-                    '2024-04-25': ['5:30 PM', '6:00 PM', '8:00 PM'],
-                    '2024-04-26': ['4:30 PM', '5:00 PM', '7:00 PM']
-                }
-            };
+    var therapist = document.getElementById('therapist-name').value;
+    var date = event.target.value;
+    var timeSelect = document.getElementById('massage-time');
+    var timeSlots = {
+        'Gali Saheb': {
+            '2024-04-25': ['2:30 PM', '3:00 PM', '5:00 PM'],
+            '2024-04-26': ['3:30 PM', '4:00 PM', '6:00 PM']
+        },
+        'Abdul Rasheed': {
+            '2024-04-25': ['5:30 PM', '6:00 PM', '8:00 PM'],
+            '2024-04-26': ['4:30 PM', '5:00 PM', '7:00 PM']
+        }
+    };
 
-            timeSelect.innerHTML = '<option value="" disabled selected>Select Time</option>'; // Clear previous options
-            if (timeSlots[therapist] && timeSlots[therapist][date]) {
-                timeSlots[therapist][date].forEach(function(time) {
-                    var option = document.createElement('option');
-                    option.textContent = time;
-                    timeSelect.appendChild(option);
-                });
-            }
+    var timeSlotsAvailable = timeSlots[therapist] && timeSlots[therapist][date];
 
-            // Trigger form validation after updating options
-            validateForm();
+    if (timeSlotsAvailable && timeSlotsAvailable.length > 0) {
+        var slotsText = timeSlotsAvailable.join(', ');
+        alert("Available slots for " + therapist + " on " + date + ":\n" + slotsText);
+    } else {
+        alert("No available slots for " + therapist + " on " + date + ". Please choose another date.");
+    }
+
+    timeSelect.innerHTML = ''; // Clear previous options
+    if (timeSlotsAvailable && timeSlotsAvailable.length > 0) {
+        timeSlotsAvailable.forEach(function(time) {
+            var option = document.createElement('option');
+            option.textContent = time;
+            timeSelect.appendChild(option);
         });
+    } else {
+        var option = document.createElement('option');
+        option.textContent = 'No available slots for this date. Please choose another date.';
+        timeSelect.appendChild(option);
+    }
+
+    // Trigger form validation after updating options
+    validateForm();
+});
+
     </script>
 </body>
 </html>
