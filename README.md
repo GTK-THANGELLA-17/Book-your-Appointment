@@ -1,4 +1,4 @@
-# Book Your Massage Appointment Website
+# Book Your Appointment Website
 
 ## Programming Languages
 - HTML5
